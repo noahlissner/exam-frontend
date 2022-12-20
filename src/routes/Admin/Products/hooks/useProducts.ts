@@ -11,10 +11,9 @@ type IProps = {
   mutate: any;
 };
 
-const updPublished = async (id: string, value: boolean) => {
-  await axios.post("http://localhost:5000/api/products/update/published", {
-    id,
-    value,
+const updateCall = async (data: any) => {
+  await axios.post("http://localhost:5000/api/products/update", {
+    data,
   });
 };
 
@@ -24,11 +23,16 @@ const useProducts = () => {
     fetcher
   );
 
-  const updatePublished = (data: IUpdatePublishedData) => {
-    return mutate(async () => await updPublished(data.id, data.value));
+  const update = (newData: any) => {
+    return mutate(async () => await updateCall(newData), {
+      optimisticUpdates: [...data, newData],
+      rollbackOnError: true,
+      populateCache: true,
+      // revalidate: false,
+    });
   };
 
-  return { data, updatePublished, error, isLoading };
+  return { data, update, error, isLoading };
 };
 
 export default useProducts;

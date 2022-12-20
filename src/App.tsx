@@ -7,11 +7,15 @@ import Login from "./routes/Admin/Login";
 import Orders from "./routes/Admin/Orders";
 import Products from "./routes/Admin/Products";
 import CreateProduct from "./routes/Admin/Products/CreateProduct/CreateProduct";
+import EditProduct from "./routes/Admin/Products/EditProduct";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Store from "./routes/Store/Store";
 
 const App = () => {
   return (
     <Routes>
+      {/* Public/Store Pages */}
+      <Route path="/" element={<Store />} />
       {/* ADMIN PAGES */}
       <Route path="/admin/login" element={<Login />} />
       <Route
@@ -35,6 +39,14 @@ const App = () => {
         element={
           <ProtectedRoute>
             <CreateProduct />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/products/edit/:id"
+        element={
+          <ProtectedRoute>
+            <EditProduct />
           </ProtectedRoute>
         }
       />

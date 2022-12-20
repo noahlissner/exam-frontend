@@ -1,4 +1,10 @@
-import { Flex, Link, Icon, FlexProps } from "@chakra-ui/react";
+import {
+  Flex,
+  Link,
+  Icon,
+  FlexProps,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import { Link as ReactLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -13,9 +19,13 @@ const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
   const { pathname } = useLocation();
   const activePath = pathname.split("/")[2] === href.split("/")[2];
 
-  const textStyle = activePath ? "white" : "gray.800";
-  const bgStyle = activePath ? "blue.400" : "white";
-  const hoverStyle = activePath ? "blue.400" : "gray.100";
+  const textStyle = activePath
+    ? "white"
+    : useColorModeValue("gray.800", "white");
+  const bgStyle = activePath ? "blue.400" : "none";
+  const hoverStyle = activePath
+    ? "blue.400"
+    : useColorModeValue("gray.100", "whiteAlpha.200");
 
   return (
     <Link

@@ -9,18 +9,18 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Spinner,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import NavigationWrapper from "../../../components/NavigationWrapper";
 import { Link } from "react-router-dom";
 import { FiSearch, FiPlus } from "react-icons/fi";
 import ProductTable from "../../../components/Tables/ProductTable";
 import useProducts from "./hooks/useProducts";
-import { useEffect } from "react";
+import axios from "axios";
 
 const Products = () => {
   const { data, error, isLoading } = useProducts();
-
-  console.log(data);
 
   return (
     <NavigationWrapper>
@@ -38,7 +38,7 @@ const Products = () => {
                 />
                 <Input
                   type="search"
-                  bg="white"
+                  bg={useColorModeValue("white", "gray.800")}
                   border="none"
                   placeholder="Search Product..."
                   maxW="xs"
@@ -61,7 +61,7 @@ const Products = () => {
           </Box>
 
           {/* Table */}
-          {data && <ProductTable products={data} />}
+          {data ? <ProductTable products={data} /> : <Spinner />}
         </Container>
       </Box>
     </NavigationWrapper>

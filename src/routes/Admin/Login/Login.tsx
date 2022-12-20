@@ -39,9 +39,9 @@ const Login = () => {
       });
     }
 
-    // if (isSuccess || user) {
-    //   navigate("/admin");
-    // }
+    if (isSuccess || user) {
+      navigate("/admin");
+    }
 
     dispatch(reset());
   }, [user, isError, message, reset]);
