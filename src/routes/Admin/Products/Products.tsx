@@ -11,6 +11,7 @@ import {
   InputLeftElement,
   Spinner,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import NavigationWrapper from "../../../components/NavigationWrapper";
 import { Link } from "react-router-dom";
@@ -18,9 +19,11 @@ import { FiSearch, FiPlus } from "react-icons/fi";
 import ProductTable from "../../../components/Tables/ProductTable";
 import useProducts from "./hooks/useProducts";
 import axios from "axios";
+import EditProductDrawer from "../../../components/Drawers/EditProductDrawer";
 
 const Products = () => {
   const { data, error, isLoading } = useProducts();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <NavigationWrapper>
@@ -51,9 +54,10 @@ const Products = () => {
                 _hover={{ bg: "blue.500" }}
                 fontWeight="normal"
                 color="white"
-                as={Link}
-                to="/admin/products/create"
+                // as={Link}
+                // to="/admin/products/create"
                 fontSize="sm"
+                onClick={onOpen}
               >
                 Create
               </Button>
@@ -64,6 +68,11 @@ const Products = () => {
           {data ? <ProductTable products={data} /> : <Spinner />}
         </Container>
       </Box>
+      <EditProductDrawer
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Create Product"
+      />
     </NavigationWrapper>
   );
 };

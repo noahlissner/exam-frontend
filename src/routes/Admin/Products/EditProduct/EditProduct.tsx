@@ -43,8 +43,10 @@ const EditProduct = () => {
         <Box p={8}>
           <Container maxW="2xl">
             <VStack my={4} alignItems="flex-start">
-              <Heading>Edit Product</Heading>
-              <Text>#{id}</Text>
+              <Heading fontSize="2xl">Edit Product</Heading>
+              <Text fontSize="lg" color="gray.500">
+                #{id}
+              </Text>
             </VStack>
             <Formik
               initialValues={{

@@ -3,6 +3,7 @@ import {
   Button,
   Container,
   Flex,
+  Heading,
   HStack,
   IconButton,
   Menu,
@@ -23,7 +24,7 @@ const Nav = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+    <Container maxW="8xl" borderRadius="xl" px={4}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <IconButton
           size={"md"}
@@ -32,7 +33,7 @@ const Nav = () => {
           display={{ base: "flex", md: "none" }}
           onClick={isOpen ? onClose : onOpen}
         />
-        <Box>Logo</Box>
+        <Heading fontSize="2xl">Logo</Heading>
         <HStack
           spacing={8}
           alignItems={"center"}
@@ -45,7 +46,11 @@ const Nav = () => {
           </HStack>
         </HStack>
         <Flex alignItems={"center"}>
-          <Button onClick={toggleColorMode} variant="ghost">
+          <Button
+            onClick={toggleColorMode}
+            variant="ghost"
+            _hover={{ bg: useColorModeValue("gray.200", "gray.700") }}
+          >
             {colorMode === "light" ? <FiMoon /> : <FiSun />}
           </Button>
         </Flex>
@@ -60,7 +65,7 @@ const Nav = () => {
           </Stack>
         </Box>
       ) : null}
-    </Box>
+    </Container>
   );
 };
 export default Nav;

@@ -11,7 +11,8 @@ const NavLink = ({ children }: Props) => {
       as={ReactLink}
       to="#"
       px={2}
-      py={1}
+      py={2}
+      fontSize="lg"
       rounded="md"
       _hover={{
         textDecoration: "none",

@@ -1,7 +1,7 @@
 export interface IProducts {
   _id: string;
   title: string;
-  description?: string;
+  img?: string;
   category: ICategory;
   price: number;
   published: boolean;

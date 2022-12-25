@@ -9,7 +9,7 @@ import Products from "./routes/Admin/Products";
 import CreateProduct from "./routes/Admin/Products/CreateProduct/CreateProduct";
 import EditProduct from "./routes/Admin/Products/EditProduct";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import Store from "./routes/Store/Store";
+import Store from "./routes/Public/Store";
 
 const App = () => {
   return (

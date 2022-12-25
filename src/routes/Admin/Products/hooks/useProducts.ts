@@ -17,6 +17,12 @@ const updateCall = async (data: any) => {
   });
 };
 
+const createCall = async (data: any) => {
+  await axios.post("http://localhost:5000/api/products/create", {
+    data,
+  });
+};
+
 const useProducts = () => {
   const { data, mutate, error, isLoading }: IProps = useSWR(
     "http://localhost:5000/api/products/getall",
@@ -32,7 +38,11 @@ const useProducts = () => {
     });
   };
 
-  return { data, update, error, isLoading };
+  const create = (data: any) => {
+    return mutate(async () => await createCall(data));
+  };
+
+  return { data, update, create, error, isLoading };
 };
 
 export default useProducts;
