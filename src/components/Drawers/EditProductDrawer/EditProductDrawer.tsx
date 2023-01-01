@@ -15,9 +15,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Field, Formik } from "formik";
-import useCategory from "../../routes/Admin/Products/hooks/useCategory";
-import useProducts from "../../routes/Admin/Products/hooks/useProducts";
-import { IProducts } from "../../routes/Admin/Products/types";
+import useCategory from "../../../routes/Admin/Products/hooks/useCategory";
+import useProducts from "../../../routes/Admin/Products/hooks/useProducts";
+import { IProducts } from "../../../routes/Admin/Products/types";
 
 type Props = {
   onClose: any;
@@ -28,7 +28,7 @@ type Props = {
 
 const EditProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
   const { data: categories } = useCategory();
-  const { create, update } = useProducts();
+  const { create, update, isLoading, error } = useProducts();
 
   return (
     <>
@@ -42,7 +42,7 @@ const EditProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
               <Formik
                 initialValues={{
                   title: product ? product.title : "",
-                  category: product ? product.category.title : "",
+                  category: product ? product.category.title : "gadgets",
                   price: product ? product.price : "",
                   img: product ? product.img : "",
                   published: product ? product.published : "",
@@ -53,8 +53,9 @@ const EditProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
                     price: values.price,
                     img: values.img,
                     published: values.published,
+                    // @ts-ignore
                     category: categories.find(
-                      (category: any) => values.category === category.title
+                      (category) => values.category === category.title
                     )._id,
                   };
 
@@ -126,8 +127,8 @@ const EditProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
                         />
                       </FormControl>
                       <Button
-                        // isLoading={isLoading}
-                        // loadingText="Sign in"
+                        isLoading={isLoading}
+                        loadingText="Save"
                         bg="blue.400"
                         fontWeight="normal"
                         color="white"

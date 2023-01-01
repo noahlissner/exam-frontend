@@ -8,10 +8,33 @@ import {
   chakra,
   Tooltip,
   useColorModeValue,
+  Button,
+  useToast,
 } from "@chakra-ui/react";
 import { FiShoppingCart } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../feature/cart/cartSlice";
+import { IProducts } from "../../routes/Admin/Products/types";
 
-const ProductCard = ({ data }: any) => {
+type Props = {
+  data: IProducts;
+};
+
+const ProductCard = ({ data }: Props) => {
+  const dispatch = useDispatch();
+  const toast = useToast();
+
+  const handleAddtoCart = () => {
+    dispatch(addToCart(data));
+    toast({
+      title: `${data.title} added to cart`,
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+      position: "top-right",
+    });
+  };
+
   return (
     <Flex alignItems="center" justifyContent="center">
       <Box
@@ -22,16 +45,6 @@ const ProductCard = ({ data }: any) => {
         shadow="lg"
         position="relative"
       >
-        {data?.isNew && (
-          <Circle
-            size="10px"
-            position="absolute"
-            top={2}
-            right={2}
-            bg="red.200"
-          />
-        )}
-
         <Image
           src={data.img}
           fallbackSrc="https://via.placeholder.com/400"
@@ -45,7 +58,7 @@ const ProductCard = ({ data }: any) => {
         <Box p="6">
           <Box display="flex" alignItems="baseline">
             <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
-              {data?.category.title}
+              {data.category.title}
             </Badge>
           </Box>
           <Flex mt="1" justifyContent="space-between" alignContent="center">
@@ -55,7 +68,7 @@ const ProductCard = ({ data }: any) => {
               as="h4"
               lineHeight="tight"
             >
-              {data?.title}
+              {data.title}
             </Box>
             <Tooltip
               label="Add to cart"
@@ -64,9 +77,9 @@ const ProductCard = ({ data }: any) => {
               color="gray.800"
               fontSize="1.2em"
             >
-              <chakra.a href="#" display="flex">
+              <Button variant="ghost" display="flex" onClick={handleAddtoCart}>
                 <Icon as={FiShoppingCart} h={7} w={7} alignSelf="center" />
-              </chakra.a>
+              </Button>
             </Tooltip>
           </Flex>
 
@@ -80,7 +93,7 @@ const ProductCard = ({ data }: any) => {
               >
                 SEK
               </Box>
-              {data?.price?.toFixed(2)}
+              {data.price.toFixed(2)}
             </Box>
           </Flex>
         </Box>

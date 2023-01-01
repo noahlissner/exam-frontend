@@ -1,4 +1,8 @@
-export interface IProducts {
+export interface ICartItem extends IProduct {
+  cartQuantity: number;
+}
+
+export interface IProduct {
   _id: string;
   title: string;
   img?: string;
@@ -10,8 +14,4 @@ export interface IProducts {
 export interface ICategory {
   _id: string;
   title: string;
-}
-
-export interface IError {
-  message: string;
 }

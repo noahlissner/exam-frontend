@@ -19,6 +19,7 @@ import { IProducts } from "../../routes/Admin/Products/types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import EditProductDrawer from "../Drawers/EditProductDrawer";
+import AlertDeleteProducts from "../Alerts/AlertDeleteProduct";
 
 type Props = {
   products: IProducts[];
@@ -27,6 +28,11 @@ type Props = {
 const ProductTable = ({ products }: Props) => {
   const { update } = useProducts();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: AlertIsOpen,
+    onOpen: AlertOnOpen,
+    onClose: AlertOnClose,
+  } = useDisclosure();
   const [product, setProduct] = useState<IProducts | undefined>();
 
   const handleUpdatePublished = (e: any) => {
@@ -38,8 +44,6 @@ const ProductTable = ({ products }: Props) => {
 
     update(data);
   };
-
-  console.log(products);
 
   const handleEdit = (product: IProducts) => {
     setProduct(product);
@@ -62,7 +66,6 @@ const ProductTable = ({ products }: Props) => {
           </Thead>
           <Tbody bg={useColorModeValue("white", "gray.700")}>
             {products.map((product) => {
-              // console.log(product.published);
               return (
                 <Tr key={product._id}>
                   <Td>{product._id}</Td>
@@ -87,7 +90,11 @@ const ProductTable = ({ products }: Props) => {
                         aria-label="edit"
                         onClick={() => handleEdit(product)}
                       />
-                      <IconButton icon={<FiTrash />} aria-label="delete" />
+                      <IconButton
+                        icon={<FiTrash />}
+                        aria-label="delete"
+                        onClick={AlertOnOpen}
+                      />
                     </ButtonGroup>
                   </Td>
                 </Tr>
@@ -96,12 +103,17 @@ const ProductTable = ({ products }: Props) => {
           </Tbody>
         </Table>
       </TableContainer>
-      <EditProductDrawer
-        product={product}
-        isOpen={isOpen}
-        onClose={onClose}
-        title="Edit Product"
-      />
+      <AlertDeleteProducts isOpen={AlertIsOpen} onClose={AlertOnClose} />
+      {product && (
+        <>
+          <EditProductDrawer
+            product={product}
+            isOpen={isOpen}
+            onClose={onClose}
+            title="Edit Product"
+          />
+        </>
+      )}
     </>
   );
 };

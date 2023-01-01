@@ -1,8 +1,6 @@
 import axios from "axios";
 import useSWR from "swr";
-import { IError, IProducts, IUpdatePublishedData } from "../types";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { IError, IProducts } from "../types";
 
 type IProps = {
   data: IProducts[];
@@ -11,21 +9,25 @@ type IProps = {
   mutate: any;
 };
 
+const URL_PATH = "http://localhost:5000/api/admin";
+
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
 const updateCall = async (data: any) => {
-  await axios.post("http://localhost:5000/api/products/update", {
+  await axios.post(URL_PATH + "/products/update", {
     data,
   });
 };
 
 const createCall = async (data: any) => {
-  await axios.post("http://localhost:5000/api/products/create", {
+  await axios.post(URL_PATH + "/products/create", {
     data,
   });
 };
 
 const useProducts = () => {
   const { data, mutate, error, isLoading }: IProps = useSWR(
-    "http://localhost:5000/api/products/getall",
+    URL_PATH + "/products/getall",
     fetcher
   );
 

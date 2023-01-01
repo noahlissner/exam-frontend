@@ -9,6 +9,7 @@ import Products from "./routes/Admin/Products";
 import CreateProduct from "./routes/Admin/Products/CreateProduct/CreateProduct";
 import EditProduct from "./routes/Admin/Products/EditProduct";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Checkout from "./routes/Public/Checkout";
 import Store from "./routes/Public/Store";
 
 const App = () => {
@@ -16,6 +17,8 @@ const App = () => {
     <Routes>
       {/* Public/Store Pages */}
       <Route path="/" element={<Store />} />
+      <Route path="/checkout" element={<Checkout />} />
+
       {/* ADMIN PAGES */}
       <Route path="/admin/login" element={<Login />} />
       <Route

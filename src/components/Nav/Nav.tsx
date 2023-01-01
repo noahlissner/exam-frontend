@@ -1,21 +1,21 @@
 import {
   Box,
   Button,
+  Circle,
   Container,
   Flex,
   Heading,
   HStack,
   IconButton,
-  Menu,
-  MenuDivider,
-  MenuItem,
-  MenuList,
   Stack,
   useColorMode,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FiMoon, FiSun, FiMenu, FiX } from "react-icons/fi";
+import { FiMoon, FiSun, FiMenu, FiX, FiShoppingCart } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import CartDrawer from "../Drawers/CartDrawer";
 import NavLink from "./NavLink";
 
 const Links = ["Store", "About", "Contact"];
@@ -23,6 +23,16 @@ const Links = ["Store", "About", "Contact"];
 const Nav = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: CartIsOpen,
+    onOpen: CartOnOpen,
+    onClose: CartOnClose,
+  } = useDisclosure();
+
+  const { cartTotalQuantity }: any = useSelector<RootState>(
+    (state) => state.cart
+  );
+
   return (
     <Container maxW="8xl" borderRadius="xl" px={4}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
@@ -51,7 +61,24 @@ const Nav = () => {
             variant="ghost"
             _hover={{ bg: useColorModeValue("gray.200", "gray.700") }}
           >
-            {colorMode === "light" ? <FiMoon /> : <FiSun />}
+            {colorMode === "light" ? <FiMoon size={20} /> : <FiSun size={20} />}
+          </Button>
+          <Button
+            onClick={CartOnOpen}
+            variant="ghost"
+            _hover={{ bg: useColorModeValue("gray.200", "gray.700") }}
+          >
+            <FiShoppingCart size={20} />
+            <Circle
+              mb="15px"
+              ml="2px"
+              size="20px"
+              fontSize="10px"
+              bg="black"
+              color="white"
+            >
+              {cartTotalQuantity}
+            </Circle>
           </Button>
         </Flex>
       </Flex>
@@ -65,6 +92,8 @@ const Nav = () => {
           </Stack>
         </Box>
       ) : null}
+
+      <CartDrawer isOpen={CartIsOpen} onClose={CartOnClose} />
     </Container>
   );
 };

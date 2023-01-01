@@ -28,15 +28,6 @@ const EditProduct = () => {
 
   const product = products?.find((product) => product._id === id);
 
-  console.log(product);
-
-  // const formik = useFormik({
-  //   initialValues: product || [],
-  //   onSubmit: (values) => {
-  //     console.log(values);
-  //   },
-  // });
-
   return (
     <NavigationWrapper>
       {product && categories ? (
@@ -51,7 +42,6 @@ const EditProduct = () => {
             <Formik
               initialValues={{
                 title: product.title,
-                description: product.description,
                 category: product.category.title,
                 price: product.price,
                 published: product.published,
@@ -73,25 +63,9 @@ const EditProduct = () => {
                       <FormLabel htmlFor="title">Title</FormLabel>
                       <Field as={Input} id="title" name="title" type="text" />
                     </FormControl>
-                    {/* Description */}
-                    <FormControl>
-                      <FormLabel htmlFor="description">Description</FormLabel>
-                      <Field
-                        as={Input}
-                        id="description"
-                        name="description"
-                        type="text"
-                      />
-                    </FormControl>
                     {/* Category */}
                     <FormControl>
                       <FormLabel htmlFor="category">Category</FormLabel>
-                      {/* <Field
-                        as={Input}
-                        id="category"
-                        name="category"
-                        type="text"
-                      /> */}
                       <Select
                         name="category"
                         value={values.category}
