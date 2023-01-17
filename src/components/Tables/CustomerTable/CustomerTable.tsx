@@ -22,6 +22,7 @@ type Props = {
 };
 
 const CustomerTable = ({ customers }: Props) => {
+  const [customerID, setCustomerID] = useState<string | undefined>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: AlertIsOpen,
@@ -33,6 +34,11 @@ const CustomerTable = ({ customers }: Props) => {
   const handleEdit = (customer: ICustomer) => {
     setCustomer(customer);
     onOpen();
+  };
+
+  const handleRemove = (id: string) => {
+    setCustomerID(id);
+    AlertOnOpen();
   };
   return (
     <>
@@ -67,7 +73,7 @@ const CustomerTable = ({ customers }: Props) => {
                       <IconButton
                         icon={<FiTrash />}
                         aria-label="delete"
-                        onClick={AlertOnOpen}
+                        onClick={() => handleRemove(customer._id)}
                       />
                     </ButtonGroup>
                   </Td>
@@ -77,7 +83,13 @@ const CustomerTable = ({ customers }: Props) => {
           </Tbody>
         </Table>
       </TableContainer>
-      <AlertDeleteCustomer isOpen={AlertIsOpen} onClose={AlertOnClose} />
+      {customerID && (
+        <AlertDeleteCustomer
+          id={customerID}
+          isOpen={AlertIsOpen}
+          onClose={AlertOnClose}
+        />
+      )}
       {customer && (
         <>
           <CustomerDrawer

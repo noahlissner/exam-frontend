@@ -24,7 +24,11 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Customers", icon: FiUsers, href: "/admin/customers" },
 ];
 
-const NavigationWrapper = ({ children }: any) => {
+type Props = {
+  children: JSX.Element | JSX.Element[] | string | string[];
+};
+
+const NavigationWrapper = ({ children }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

@@ -20,8 +20,8 @@ import useProducts from "../../../routes/Admin/Products/hooks/useProducts";
 import { IProducts } from "../../../routes/Admin/Products/types";
 
 type Props = {
-  onClose: any;
-  isOpen: any;
+  onClose: () => void;
+  isOpen: boolean;
   title: string;
   product?: IProducts;
 };
@@ -99,7 +99,7 @@ const ProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
                           value={values.category}
                           onChange={handleChange}
                         >
-                          {categories.map((category: any) => (
+                          {categories.map((category) => (
                             <option key={category._id} value={category.title}>
                               {category.title.toUpperCase()}
                             </option>

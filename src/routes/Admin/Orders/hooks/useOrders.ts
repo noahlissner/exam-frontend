@@ -1,15 +1,16 @@
 import axios from "axios";
-import useSWR from "swr";
+import useSWR, { KeyedMutator } from "swr";
+import { IError } from "../../Products/types";
 import { IOrder } from "../types";
 
 type IProps = {
   data: IOrder[];
-  error: any;
+  error: IError | undefined;
   isLoading: boolean;
-  mutate: any;
+  mutate: KeyedMutator<any>;
 };
 
-const URL_PATH = `https://exam-backend-production.up.railway.app/api/admin/orders`;
+const URL_PATH = `http://localhost:5000/api/admin/orders`;
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 

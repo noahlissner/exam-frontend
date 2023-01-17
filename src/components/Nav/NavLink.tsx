@@ -2,7 +2,7 @@ import { Link, useColorModeValue } from "@chakra-ui/react";
 import { Link as ReactLink } from "react-router-dom";
 
 type Props = {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[] | string | string[];
 };
 
 const NavLink = ({ children }: Props) => {

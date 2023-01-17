@@ -29,9 +29,7 @@ const Nav = () => {
     onClose: CartOnClose,
   } = useDisclosure();
 
-  const { cartTotalQuantity }: any = useSelector<RootState>(
-    (state) => state.cart
-  );
+  const { cartTotalQuantity } = useSelector((state: RootState) => state.cart);
 
   return (
     <Container maxW="8xl" borderRadius="xl" px={4}>
@@ -50,7 +48,7 @@ const Nav = () => {
           display={{ base: "none", md: "flex" }}
         >
           <HStack as={"nav"} spacing={4}>
-            {Links.map((link: any) => (
+            {Links.map((link) => (
               <NavLink key={link}>{link}</NavLink>
             ))}
           </HStack>
@@ -86,7 +84,7 @@ const Nav = () => {
       {isOpen ? (
         <Box pb={4} display={{ md: "none" }}>
           <Stack as={"nav"} spacing={4}>
-            {Links.map((link: any) => (
+            {Links.map((link) => (
               <NavLink key={link}>{link}</NavLink>
             ))}
           </Stack>

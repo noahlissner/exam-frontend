@@ -18,7 +18,7 @@ import { FiEdit2, FiTrash } from "react-icons/fi";
 import useProducts from "../../../routes/Admin/Products/hooks/useProducts";
 import { IProducts } from "../../../routes/Admin/Products/types";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import ProductDrawer from "../../Drawers/ProductDrawer";
 import AlertDeleteProducts from "../../Alerts/AlertDeleteProduct";
 
@@ -27,6 +27,7 @@ type Props = {
 };
 
 const ProductTable = ({ products }: Props) => {
+  const [customerID, setCustomerID] = useState<string | undefined>();
   const { update } = useProducts();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -36,7 +37,7 @@ const ProductTable = ({ products }: Props) => {
   } = useDisclosure();
   const [product, setProduct] = useState<IProducts | undefined>();
 
-  const handleUpdatePublished = (e: any) => {
+  const handleUpdatePublished = (e: ChangeEvent<HTMLInputElement>) => {
     const product = products.find((product) => product._id === e.target.name);
     const data = {
       ...product,
@@ -49,6 +50,11 @@ const ProductTable = ({ products }: Props) => {
   const handleEdit = (product: IProducts) => {
     setProduct(product);
     onOpen();
+  };
+
+  const handleRemove = (id: string) => {
+    setCustomerID(id);
+    AlertOnOpen();
   };
 
   return (
@@ -94,15 +100,13 @@ const ProductTable = ({ products }: Props) => {
                     <ButtonGroup>
                       <IconButton
                         icon={<FiEdit2 />}
-                        // as={Link}
-                        // to={`/admin/products/edit/${product._id}`}
                         aria-label="edit"
                         onClick={() => handleEdit(product)}
                       />
                       <IconButton
                         icon={<FiTrash />}
                         aria-label="delete"
-                        onClick={AlertOnOpen}
+                        onClick={() => handleRemove(product._id)}
                       />
                     </ButtonGroup>
                   </Td>
@@ -112,7 +116,13 @@ const ProductTable = ({ products }: Props) => {
           </Tbody>
         </Table>
       </TableContainer>
-      <AlertDeleteProducts isOpen={AlertIsOpen} onClose={AlertOnClose} />
+      {customerID && (
+        <AlertDeleteProducts
+          id={customerID}
+          isOpen={AlertIsOpen}
+          onClose={AlertOnClose}
+        />
+      )}
       {product && (
         <>
           <ProductDrawer

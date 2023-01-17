@@ -20,7 +20,6 @@ import useCustomers from "./hooks/useCustomers";
 const Customers = () => {
   const { data } = useCustomers();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(data);
 
   return (
     <NavigationWrapper>

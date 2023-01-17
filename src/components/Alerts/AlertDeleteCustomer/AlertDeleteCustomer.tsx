@@ -7,10 +7,29 @@ import {
   AlertDialogOverlay,
   Button,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import useCustomers from "../../../routes/Admin/Customers/hooks/useCustomers";
 
-const AlertDeleteCustomer = ({ isOpen, onClose }: any) => {
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
+  id?: string;
+};
+
+const AlertDeleteCustomer = ({ isOpen, onClose, id }: Props) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
+
+  const { remove, error, isLoading } = useCustomers();
+
+  const handleDelete = () => {
+    console.log(id);
+
+    if (id) {
+      remove(id);
+    }
+    onClose();
+  };
+
   return (
     <AlertDialog
       isOpen={isOpen}
@@ -31,7 +50,7 @@ const AlertDeleteCustomer = ({ isOpen, onClose }: any) => {
             <Button ref={cancelRef} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme="red" onClick={onClose} ml={3}>
+            <Button colorScheme="red" onClick={handleDelete} ml={3}>
               Delete
             </Button>
           </AlertDialogFooter>

@@ -71,7 +71,7 @@ const EditProduct = () => {
                         value={values.category}
                         onChange={handleChange}
                       >
-                        {categories.map((category: any) => (
+                        {categories.map((category) => (
                           <option key={category._id} value={category.title}>
                             {category.title.toUpperCase()}
                           </option>

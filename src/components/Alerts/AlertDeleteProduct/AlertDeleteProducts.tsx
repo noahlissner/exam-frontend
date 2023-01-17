@@ -8,9 +8,26 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useRef } from "react";
+import useProducts from "../../../routes/Admin/Products/hooks/useProducts";
 
-const AlertDeleteProducts = ({ isOpen, onClose }: any) => {
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
+  id: string;
+};
+
+const AlertDeleteProducts = ({ isOpen, onClose, id }: Props) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
+
+  const { remove, error, isLoading } = useProducts();
+
+  const handleDelete = () => {
+    if (id) {
+      remove(id);
+    }
+    onClose();
+  };
+
   return (
     <AlertDialog
       isOpen={isOpen}
@@ -31,7 +48,7 @@ const AlertDeleteProducts = ({ isOpen, onClose }: any) => {
             <Button ref={cancelRef} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme="red" onClick={onClose} ml={3}>
+            <Button colorScheme="red" onClick={handleDelete} ml={3}>
               Delete
             </Button>
           </AlertDialogFooter>
