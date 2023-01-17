@@ -76,7 +76,7 @@ const ProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <VStack
-                      bg={useColorModeValue("white", "gray.800")}
+                      bg={useColorModeValue("white", "gray.700")}
                       spacing={4}
                       p={8}
                       rounded="lg"

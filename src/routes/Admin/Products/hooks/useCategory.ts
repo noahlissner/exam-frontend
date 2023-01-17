@@ -10,7 +10,7 @@ type IProps = {
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const URL_PATH = "http://localhost:5000/api/admin";
+const URL_PATH = "https://exam-backend-production.up.railway.app/api/admin";
 
 const useCategory = () => {
   const { data, isLoading, error }: IProps = useSWR(

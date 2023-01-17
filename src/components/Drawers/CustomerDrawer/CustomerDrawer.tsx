@@ -14,7 +14,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Field, Formik } from "formik";
-import React from "react";
 import useCustomers from "../../../routes/Admin/Customers/hooks/useCustomers";
 import { ICustomer } from "../../../routes/Admin/Customers/types";
 
@@ -68,7 +67,7 @@ const CustomerDrawer = ({ isOpen, onClose, title, customer }: Props) => {
             }) => (
               <form onSubmit={handleSubmit}>
                 <VStack
-                  bg={useColorModeValue("white", "gray.800")}
+                  bg={useColorModeValue("white", "gray.700")}
                   spacing={4}
                   p={8}
                   rounded="lg"

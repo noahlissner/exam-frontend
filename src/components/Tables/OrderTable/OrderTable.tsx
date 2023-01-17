@@ -51,7 +51,7 @@ const OrderTable = ({ orders }: Props) => {
               return (
                 <Tr
                   key={order._id}
-                  _hover={{ bg: "gray.50" }}
+                  _hover={{ bg: useColorModeValue("gray.50", "gray.800") }}
                   cursor="pointer"
                   onClick={() => handleModal(order)}
                 >

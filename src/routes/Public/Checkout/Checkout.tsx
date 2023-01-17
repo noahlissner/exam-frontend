@@ -13,6 +13,7 @@ import {
   RadioGroup,
   Stack,
   Text,
+  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -311,7 +312,12 @@ const Checkout = () => {
                     </Flex>
                   </VStack>
                 </Box>
-                <Box p={16} flex={1} bg="gray.50">
+                <Box
+                  p={16}
+                  flex={1}
+                  bg={useColorModeValue("gray.50", "gray.700")}
+                  rounded="2xl"
+                >
                   <Text fontSize="xl" fontWeight="bold" mb={10}>
                     Order Summary
                   </Text>
@@ -326,12 +332,15 @@ const Checkout = () => {
                         type="text"
                         placeholder="Discount Code"
                         variant="filled"
-                        bg="white"
-                        _hover={{ bg: "white" }}
-                        _focus={{ bg: "white" }}
+                        bg={useColorModeValue("white", "gray.800")}
+                        _hover={{ bg: useColorModeValue("white", "gray.900") }}
+                        _focus={{ bg: useColorModeValue("white", "gray.900") }}
                         size="lg"
                         border="1px"
-                        borderColor="gray.100"
+                        borderColor={useColorModeValue(
+                          "gray.100",
+                          "transparent"
+                        )}
                       />
                       <Button
                         size="lg"
