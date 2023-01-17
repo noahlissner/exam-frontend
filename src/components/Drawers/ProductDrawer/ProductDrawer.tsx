@@ -23,10 +23,10 @@ type Props = {
   onClose: any;
   isOpen: any;
   title: string;
-  product: IProducts;
+  product?: IProducts;
 };
 
-const EditProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
+const ProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
   const { data: categories } = useCategory();
   const { create, update, isLoading, error } = useProducts();
 
@@ -135,7 +135,7 @@ const EditProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
                         _hover={{ bg: "blue.500" }}
                         type="submit"
                       >
-                        Save
+                        {product ? "Save" : "Create"}
                       </Button>
                     </VStack>
                   </form>
@@ -149,4 +149,4 @@ const EditProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
   );
 };
 
-export default EditProductDrawer;
+export default ProductDrawer;

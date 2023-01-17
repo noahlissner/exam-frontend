@@ -17,7 +17,6 @@ interface Props extends BoxProps {
 const SidebarContent = ({ LinkItems, onClose, ...rest }: Props) => {
   return (
     <Box
-      transition="3s ease"
       bg={useColorModeValue("white", "gray.800")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}

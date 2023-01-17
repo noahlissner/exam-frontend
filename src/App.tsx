@@ -6,7 +6,6 @@ import Customers from "./routes/Admin/Customers";
 import Login from "./routes/Admin/Login";
 import Orders from "./routes/Admin/Orders";
 import Products from "./routes/Admin/Products";
-import CreateProduct from "./routes/Admin/Products/CreateProduct/CreateProduct";
 import EditProduct from "./routes/Admin/Products/EditProduct";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Checkout from "./routes/Public/Checkout";
@@ -34,14 +33,6 @@ const App = () => {
         element={
           <ProtectedRoute>
             <Products />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/products/create"
-        element={
-          <ProtectedRoute>
-            <CreateProduct />
           </ProtectedRoute>
         }
       />

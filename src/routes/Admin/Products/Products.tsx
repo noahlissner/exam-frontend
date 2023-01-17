@@ -2,8 +2,6 @@ import {
   Box,
   Container,
   HStack,
-  VStack,
-  Text,
   Button,
   Heading,
   Input,
@@ -14,12 +12,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import NavigationWrapper from "../../../components/NavigationWrapper";
-import { Link } from "react-router-dom";
 import { FiSearch, FiPlus } from "react-icons/fi";
 import ProductTable from "../../../components/Tables/ProductTable";
 import useProducts from "./hooks/useProducts";
-import axios from "axios";
-import EditProductDrawer from "../../../components/Drawers/EditProductDrawer";
+import ProductDrawer from "../../../components/Drawers/ProductDrawer";
 
 const Products = () => {
   const { data, error, isLoading } = useProducts();
@@ -54,8 +50,6 @@ const Products = () => {
                 _hover={{ bg: "blue.500" }}
                 fontWeight="normal"
                 color="white"
-                // as={Link}
-                // to="/admin/products/create"
                 fontSize="sm"
                 onClick={onOpen}
               >
@@ -68,11 +62,7 @@ const Products = () => {
           {data ? <ProductTable products={data} /> : <Spinner />}
         </Container>
       </Box>
-      <EditProductDrawer
-        isOpen={isOpen}
-        onClose={onClose}
-        title="Create Product"
-      />
+      <ProductDrawer isOpen={isOpen} onClose={onClose} title="Create Product" />
     </NavigationWrapper>
   );
 };

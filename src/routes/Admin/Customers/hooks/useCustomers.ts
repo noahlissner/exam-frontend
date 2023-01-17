@@ -1,37 +1,37 @@
 import axios from "axios";
 import useSWR from "swr";
-import { IError, IProducts } from "../types";
+import { ICreateCustomer, ICustomer, IUpdateCustomer } from "../types";
 
 type IProps = {
-  data: IProducts[];
-  error: IError | undefined;
+  data: ICustomer[];
+  error: any;
   isLoading: boolean;
   mutate: any;
 };
 
-const URL_PATH = "https://exam-backend-production.up.railway.app/api/admin";
+const URL_PATH = `https://exam-backend-production.up.railway.app/api/admin`;
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const updateCall = async (data: any) => {
-  await axios.post(URL_PATH + "/products/update", {
+  await axios.post(URL_PATH + "/customers/update", {
     data,
   });
 };
 
 const createCall = async (data: any) => {
-  await axios.post(URL_PATH + "/products/create", {
+  await axios.post(URL_PATH + "/customers/create", {
     data,
   });
 };
 
-const useProducts = () => {
+const useCustomers = () => {
   const { data, mutate, error, isLoading }: IProps = useSWR(
-    URL_PATH + "/products/getall",
+    URL_PATH + "/customers/getall",
     fetcher
   );
 
-  const update = (newData: any) => {
+  const update = (newData: IUpdateCustomer) => {
     return mutate(async () => await updateCall(newData), {
       optimisticUpdates: [...data, newData],
       rollbackOnError: true,
@@ -40,11 +40,11 @@ const useProducts = () => {
     });
   };
 
-  const create = (data: any) => {
+  const create = (data: ICreateCustomer) => {
     return mutate(async () => await createCall(data));
   };
 
   return { data, update, create, error, isLoading };
 };
 
-export default useProducts;
+export default useCustomers;

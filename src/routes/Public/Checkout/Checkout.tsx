@@ -5,6 +5,7 @@ import {
   Divider,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   HStack,
   Input,
@@ -14,17 +15,50 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { Field, Formik } from "formik";
-import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../app/store";
 import CartItem from "../../../components/Drawers/CartDrawer/CartItem";
 import Nav from "../../../components/Nav";
+import * as Yup from "yup";
+import { clearCart } from "../../../feature/cart/cartSlice";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
   const { cartItems, cartTotalQuantity, cartTotalAmount } = useSelector(
     (state: RootState) => state.cart
   );
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const CheckoutSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, "Too Short")
+      .max(50, "Too Long")
+      .required("Required"),
+    street: Yup.string()
+      .min(2, "Too Short")
+      .max(50, "Too Long")
+      .required("Required"),
+    zip: Yup.number().required("Required"),
+    city: Yup.string()
+      .min(2, "Too Short")
+      .max(50, "Too Long")
+      .required("Required"),
+    email: Yup.string()
+      .email("Please provide a valid email")
+      .required("Required"),
+  });
+
+  useEffect(() => {
+    if (cartTotalQuantity < 1) {
+      navigate("/");
+    }
+  }, [cartTotalQuantity]);
+
   return (
     <>
       <Nav />
@@ -44,8 +78,31 @@ const Checkout = () => {
             cardExpiryMonth: "",
             cardCvc: "",
           }}
+          validationSchema={CheckoutSchema}
           onSubmit={(values) => {
-            console.log(values);
+            const data = {
+              name: values.name,
+              email: values.email,
+              street: values.street,
+              zip: values.zip,
+              city: values.city,
+              payment: values.payment,
+              shipping: values.shipping,
+              products: cartItems.map((item) => item._id),
+              amount: cartTotalAmount,
+            };
+
+            axios
+              .post("http://localhost:5000/api/checkout", data)
+              .then((response) => {
+                console.log(response);
+                if (response.status === 200) {
+                  dispatch(clearCart(null));
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           }}
         >
           {({
@@ -56,15 +113,15 @@ const Checkout = () => {
             handleChange,
             setFieldValue,
           }) => (
-            <form>
-              <Box display="flex">
-                <Box p={16} flex="1">
+            <form onSubmit={handleSubmit}>
+              <Box display="flex" flexDirection={[null, null, "column", "row"]}>
+                <Box p={16} flex={{ base: 1.5, xl: 1 }}>
                   <Text fontSize="xl" fontWeight="bold" mb={10}>
                     Shipping Information
                   </Text>
                   <VStack gap="16px">
                     {/* Full name */}
-                    <FormControl>
+                    <FormControl isInvalid={!!errors.name && touched.name}>
                       <FormLabel htmlFor="name">Full name</FormLabel>
                       <Field
                         as={Input}
@@ -73,9 +130,10 @@ const Checkout = () => {
                         type="text"
                         placeholder="Your first and last name"
                       />
+                      <FormErrorMessage>{errors.name}</FormErrorMessage>
                     </FormControl>
                     {/* Street address */}
-                    <FormControl>
+                    <FormControl isInvalid={!!errors.street && touched.street}>
                       <FormLabel htmlFor="street">Street address</FormLabel>
                       <Field
                         as={Input}
@@ -84,10 +142,14 @@ const Checkout = () => {
                         type="text"
                         placeholder="123 Example Street"
                       />
+                      <FormErrorMessage>{errors.street}</FormErrorMessage>
                     </FormControl>
                     {/* Zip & City */}
                     <Flex gap="16px" w="full">
-                      <FormControl flex="1">
+                      <FormControl
+                        flex="1"
+                        isInvalid={!!errors.zip && touched.zip}
+                      >
                         <FormLabel htmlFor="zip">Zip Code</FormLabel>
                         <Field
                           as={Input}
@@ -96,8 +158,12 @@ const Checkout = () => {
                           type="number"
                           placeholder="Zip Code"
                         />
+                        <FormErrorMessage>{errors.zip}</FormErrorMessage>
                       </FormControl>
-                      <FormControl flex="3">
+                      <FormControl
+                        flex="3"
+                        isInvalid={!!errors.city && touched.city}
+                      >
                         <FormLabel htmlFor="city">City</FormLabel>
                         <Field
                           as={Input}
@@ -106,10 +172,11 @@ const Checkout = () => {
                           type="text"
                           placeholder="City"
                         />
+                        <FormErrorMessage>{errors.city}</FormErrorMessage>
                       </FormControl>
                     </Flex>
                     {/* Email adress */}
-                    <FormControl>
+                    <FormControl isInvalid={!!errors.email && touched.email}>
                       <FormLabel htmlFor="email">Email address</FormLabel>
                       <Field
                         as={Input}
@@ -118,6 +185,7 @@ const Checkout = () => {
                         type="email"
                         placeholder="you@example.com"
                       />
+                      <FormErrorMessage>{errors.email}</FormErrorMessage>
                     </FormControl>
                   </VStack>
                   <Text fontSize="xl" fontWeight="bold" my={10}>
@@ -152,7 +220,12 @@ const Checkout = () => {
                   </Text>
                   <VStack gap="16px">
                     {/* Payment method */}
-                    <RadioGroup name="payment" w="full" mb="8px">
+                    <RadioGroup
+                      onChange={(e: any) => setFieldValue("payment", e)}
+                      name="payment"
+                      w="full"
+                      mb="8px"
+                    >
                       <Stack direction="row" justify="space-between">
                         <Radio value="credit-card">
                           <VStack align="flex-start" ml="2" spacing={0}>
@@ -238,7 +311,7 @@ const Checkout = () => {
                     </Flex>
                   </VStack>
                 </Box>
-                <Box p={16} flex="1" bg="gray.50">
+                <Box p={16} flex={1} bg="gray.50">
                   <Text fontSize="xl" fontWeight="bold" mb={10}>
                     Order Summary
                   </Text>
@@ -276,11 +349,15 @@ const Checkout = () => {
                         <Text>Subtotal</Text>
                         <Text>{cartTotalAmount}:-</Text>
                       </HStack>
-                      <HStack w="full" justify="space-between">
+                      <HStack
+                        hidden={values.shipping.length < 1}
+                        w="full"
+                        justify="space-between"
+                      >
                         <Text>Shipping Cost</Text>
                         <Text>
                           +
-                          {values.shipping
+                          {values.shipping.length > 1
                             ? values.shipping === "express"
                               ? "149"
                               : "49"
@@ -296,10 +373,18 @@ const Checkout = () => {
                         fontSize="lg"
                       >
                         <Text>Order Total</Text>
-                        <Text>{cartTotalAmount + 49}:-</Text>
+                        <Text>
+                          {values.shipping.length > 1
+                            ? values.shipping === "express"
+                              ? cartTotalAmount + 149
+                              : cartTotalAmount + 49
+                            : cartTotalAmount}
+                          :-
+                        </Text>
                       </HStack>
                     </VStack>
                     <Button
+                      type="submit"
                       size="lg"
                       fontWeight="normal"
                       colorScheme="blue"

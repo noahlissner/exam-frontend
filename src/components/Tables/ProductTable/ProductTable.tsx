@@ -2,6 +2,7 @@ import {
   Badge,
   ButtonGroup,
   IconButton,
+  Img,
   Switch,
   Table,
   TableContainer,
@@ -14,12 +15,12 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FiEdit2, FiTrash } from "react-icons/fi";
-import useProducts from "../../routes/Admin/Products/hooks/useProducts";
-import { IProducts } from "../../routes/Admin/Products/types";
+import useProducts from "../../../routes/Admin/Products/hooks/useProducts";
+import { IProducts } from "../../../routes/Admin/Products/types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import EditProductDrawer from "../Drawers/EditProductDrawer";
-import AlertDeleteProducts from "../Alerts/AlertDeleteProduct";
+import ProductDrawer from "../../Drawers/ProductDrawer";
+import AlertDeleteProducts from "../../Alerts/AlertDeleteProduct";
 
 type Props = {
   products: IProducts[];
@@ -56,7 +57,7 @@ const ProductTable = ({ products }: Props) => {
         <Table variant="simple">
           <Thead bg={useColorModeValue("gray.200", "gray.800")}>
             <Tr>
-              <Th>ID</Th>
+              <Th>IMG</Th>
               <Th>Title</Th>
               <Th>Category</Th>
               <Th>Price</Th>
@@ -68,7 +69,15 @@ const ProductTable = ({ products }: Props) => {
             {products.map((product) => {
               return (
                 <Tr key={product._id}>
-                  <Td>{product._id}</Td>
+                  <Td>
+                    <Img
+                      src={product.img}
+                      w={16}
+                      h={16}
+                      objectFit="cover"
+                      borderRadius={4}
+                    />
+                  </Td>
                   <Td>{product.title}</Td>
                   <Td>
                     <Badge>{product.category.title}</Badge>
@@ -106,7 +115,7 @@ const ProductTable = ({ products }: Props) => {
       <AlertDeleteProducts isOpen={AlertIsOpen} onClose={AlertOnClose} />
       {product && (
         <>
-          <EditProductDrawer
+          <ProductDrawer
             product={product}
             isOpen={isOpen}
             onClose={onClose}

@@ -51,7 +51,7 @@ const CartItem = ({ item }: Props) => {
         <Flex justify="space-between" alignItems="center">
           <NumberInput
             size="md"
-            maxW={24}
+            maxW={20}
             defaultValue={1}
             min={1}
             value={item.cartQuantity}
