@@ -92,7 +92,10 @@ const Checkout = () => {
             };
 
             axios
-              .post("http://localhost:5000/api/checkout", data)
+              .post(
+                "https://exam-backend-production.up.railway.app/api/checkout",
+                data
+              )
               .then((response) => {
                 if (response.status === 200) {
                   navigate("/confirmation/" + response.data);

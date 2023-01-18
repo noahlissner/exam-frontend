@@ -1,7 +1,8 @@
 import axios from "axios";
 import { IUserData } from "./types";
 
-const API_URL = "http://localhost:5000/api/admin/users/";
+const API_URL =
+  "https://exam-backend-production.up.railway.app/api/admin/users/";
 
 //Login
 const login = async (userData: IUserData) => {

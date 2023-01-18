@@ -40,7 +40,10 @@ const Confirmation = () => {
     dispatch(clearCart(null));
 
     axios
-      .get("http://localhost:5000/api/admin/orders/getorder/" + id)
+      .get(
+        "https://exam-backend-production.up.railway.app/api/admin/orders/getorder/" +
+          id
+      )
       .then((response) => {
         setTimeout(() => {
           setOrder(response.data);
