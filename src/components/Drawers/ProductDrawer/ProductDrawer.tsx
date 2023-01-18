@@ -54,7 +54,7 @@ const ProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
                 initialValues={{
                   title: product ? product.title : "",
                   category: product ? product.category.title : "gadgets",
-                  price: product ? product.price : "",
+                  price: product ? product.price : 0,
                   img: product ? product.img : "",
                   published: product ? product.published : false,
                 }}

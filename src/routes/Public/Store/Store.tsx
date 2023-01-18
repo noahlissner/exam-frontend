@@ -20,7 +20,7 @@ const Store = () => {
   return (
     <>
       <Nav />
-      <Container maxW="8xl" mt={10}>
+      <Container maxW="6xl" mt={10}>
         <HStack>
           <InputGroup>
             <InputLeftElement

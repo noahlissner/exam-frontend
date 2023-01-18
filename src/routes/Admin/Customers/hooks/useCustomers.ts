@@ -14,13 +14,13 @@ const URL_PATH = `https://exam-backend-production.up.railway.app/api/admin`;
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const updateCall = async (data: any) => {
+const updateCall = async (data: IUpdateCustomer) => {
   await axios.post(URL_PATH + "/customers/update", {
     data,
   });
 };
 
-const createCall = async (data: any) => {
+const createCall = async (data: ICreateCustomer) => {
   await axios.post(URL_PATH + "/customers/create", {
     data,
   });
@@ -43,8 +43,8 @@ const useCustomers = () => {
     });
   };
 
-  const create = (data: ICreateCustomer) => {
-    return mutate(async () => await createCall(data));
+  const create = (newData: ICreateCustomer) => {
+    return mutate(async () => await createCall(newData));
   };
 
   const remove = (id: string) => {

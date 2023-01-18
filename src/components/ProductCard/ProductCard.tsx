@@ -50,8 +50,8 @@ const ProductCard = ({ data }: Props) => {
           fallbackSrc="https://via.placeholder.com/400"
           alt={`Picture of ${data.title}`}
           roundedTop="lg"
-          height="382px"
-          width="382px"
+          height="300px"
+          width="300px"
           objectFit="cover"
         />
 
@@ -61,13 +61,8 @@ const ProductCard = ({ data }: Props) => {
               {data.category.title}
             </Badge>
           </Box>
-          <Flex mt="1" justifyContent="space-between" alignContent="center">
-            <Box
-              fontSize="2xl"
-              fontWeight="semibold"
-              as="h4"
-              lineHeight="tight"
-            >
+          <Flex mt="2" justifyContent="space-between" alignContent="center">
+            <Box fontSize="xl" fontWeight="semibold" as="h4" lineHeight="tight">
               {data.title}
             </Box>
             <Tooltip
@@ -84,7 +79,7 @@ const ProductCard = ({ data }: Props) => {
           </Flex>
 
           <Flex justifyContent="space-between" alignContent="center">
-            <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
+            <Box fontSize="xl" color={useColorModeValue("gray.800", "white")}>
               <Box
                 as="span"
                 color={useColorModeValue("gray.600", "gray.400")}

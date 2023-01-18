@@ -15,3 +15,15 @@ export interface ICategory {
 export interface IError {
   message: string;
 }
+
+export interface ICreateProduct {
+  title: string;
+  img?: string;
+  category: string;
+  price: number;
+  published: boolean;
+}
+
+export interface IUpdateProduct extends ICreateProduct {
+  _id: string;
+}

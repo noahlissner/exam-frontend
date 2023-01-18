@@ -14,7 +14,7 @@ const URL_PATH = `https://exam-backend-production.up.railway.app/api/admin/order
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const updateCall = async (data: any) => {
+const updateCall = async (data: { _id?: string; status?: string }) => {
   await axios.post(URL_PATH + "/update", {
     data,
   });

@@ -1,6 +1,6 @@
 import axios from "axios";
 import useSWR, { KeyedMutator } from "swr";
-import { IError, IProducts } from "../types";
+import { ICreateProduct, IError, IProducts, IUpdateProduct } from "../types";
 
 type IProps = {
   data: IProducts[];
@@ -13,13 +13,13 @@ const URL_PATH = "https://exam-backend-production.up.railway.app/api/admin";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const updateCall = async (data: any) => {
+const updateCall = async (data: IUpdateProduct) => {
   await axios.post(URL_PATH + "/products/update", {
     data,
   });
 };
 
-const createCall = async (data: any) => {
+const createCall = async (data: ICreateProduct) => {
   await axios.post(URL_PATH + "/products/create", {
     data,
   });
@@ -35,15 +35,15 @@ const useProducts = () => {
     fetcher
   );
 
-  const update = (newData: any) => {
+  const update = (newData: IUpdateProduct) => {
     return mutate(async () => await updateCall(newData), {
       rollbackOnError: true,
       populateCache: true,
     });
   };
 
-  const create = (data: any) => {
-    return mutate(async () => await createCall(data));
+  const create = (newData: ICreateProduct) => {
+    return mutate(async () => await createCall(newData));
   };
 
   const remove = (id: string) => {
