@@ -7,6 +7,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   HStack,
   Input,
@@ -16,6 +17,7 @@ import {
 import { Field, Formik } from "formik";
 import useCustomers from "../../../routes/Admin/Customers/hooks/useCustomers";
 import { ICustomer } from "../../../routes/Admin/Customers/types";
+import * as Yup from "yup";
 
 type Props = {
   isOpen: boolean;
@@ -26,6 +28,26 @@ type Props = {
 
 const CustomerDrawer = ({ isOpen, onClose, title, customer }: Props) => {
   const { create, update, error, isLoading } = useCustomers();
+
+  const CustomerSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, "Too Short")
+      .max(50, "Too Long")
+      .required("Required"),
+    street: Yup.string()
+      .min(2, "Too Short")
+      .max(50, "Too Long")
+      .required("Required"),
+    zip: Yup.number().required("Required"),
+    city: Yup.string()
+      .min(2, "Too Short")
+      .max(50, "Too Long")
+      .required("Required"),
+    email: Yup.string()
+      .email("Please provide a valid email")
+      .required("Required"),
+  });
+
   return (
     <Drawer isOpen={isOpen} onClose={onClose} size="md">
       <DrawerOverlay />
@@ -41,6 +63,7 @@ const CustomerDrawer = ({ isOpen, onClose, title, customer }: Props) => {
               zip: customer ? customer.zip : "",
               city: customer ? customer.city : "",
             }}
+            validationSchema={CustomerSchema}
             onSubmit={(values) => {
               const data = {
                 name: values.name,
@@ -73,29 +96,34 @@ const CustomerDrawer = ({ isOpen, onClose, title, customer }: Props) => {
                   rounded="lg"
                 >
                   {/* Name */}
-                  <FormControl>
-                    <FormLabel htmlFor="name">Name</FormLabel>
+                  <FormControl isInvalid={!!errors.name && touched.name}>
+                    <FormLabel htmlFor="name">Full Name</FormLabel>
                     <Field as={Input} id="name" name="name" type="text" />
+                    <FormErrorMessage>{errors.name}</FormErrorMessage>
                   </FormControl>
                   {/* Email */}
-                  <FormControl>
+                  <FormControl isInvalid={!!errors.email && touched.email}>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Field as={Input} id="email" name="email" type="email" />
+                    <FormErrorMessage>{errors.email}</FormErrorMessage>
                   </FormControl>
                   {/* Street */}
-                  <FormControl>
+                  <FormControl isInvalid={!!errors.street && touched.street}>
                     <FormLabel htmlFor="street">Street</FormLabel>
                     <Field as={Input} id="street" name="street" type="text" />
+                    <FormErrorMessage>{errors.street}</FormErrorMessage>
                   </FormControl>
                   {/* Zip */}
-                  <FormControl>
+                  <FormControl isInvalid={!!errors.zip && touched.zip}>
                     <FormLabel htmlFor="zip">Zip</FormLabel>
                     <Field as={Input} id="zip" name="zip" type="number" />
+                    <FormErrorMessage>{errors.zip}</FormErrorMessage>
                   </FormControl>
                   {/* City */}
-                  <FormControl>
+                  <FormControl isInvalid={!!errors.city && touched.city}>
                     <FormLabel htmlFor="city">City</FormLabel>
                     <Field as={Input} id="city" name="city" type="text" />
+                    <FormErrorMessage>{errors.city}</FormErrorMessage>
                   </FormControl>
                   <Button
                     // isLoading={isLoading}

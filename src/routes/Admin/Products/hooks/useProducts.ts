@@ -9,7 +9,7 @@ type IProps = {
   mutate: KeyedMutator<any>;
 };
 
-const URL_PATH = "http://localhost:5000/api/admin";
+const URL_PATH = "https://exam-backend-production.up.railway.app/api/admin";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 

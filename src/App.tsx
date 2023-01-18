@@ -9,6 +9,7 @@ import Products from "./routes/Admin/Products";
 import EditProduct from "./routes/Admin/Products/EditProduct";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Checkout from "./routes/Public/Checkout";
+import Confirmation from "./routes/Public/Confirmation";
 import Store from "./routes/Public/Store";
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
       {/* Public/Store Pages */}
       <Route path="/" element={<Store />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/confirmation/:id" element={<Confirmation />} />
 
       {/* ADMIN PAGES */}
       <Route path="/admin/login" element={<Login />} />

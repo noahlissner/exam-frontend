@@ -7,6 +7,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Select,
@@ -18,6 +19,7 @@ import { Field, Formik } from "formik";
 import useCategory from "../../../routes/Admin/Products/hooks/useCategory";
 import useProducts from "../../../routes/Admin/Products/hooks/useProducts";
 import { IProducts } from "../../../routes/Admin/Products/types";
+import * as Yup from "yup";
 
 type Props = {
   onClose: () => void;
@@ -29,6 +31,15 @@ type Props = {
 const ProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
   const { data: categories } = useCategory();
   const { create, update, isLoading, error } = useProducts();
+
+  const ProductSchema = Yup.object().shape({
+    title: Yup.string()
+      .min(2, "Too Short")
+      .max(50, "Too Long")
+      .required("Required"),
+    img: Yup.string().required("Required"),
+    price: Yup.number().required("Required"),
+  });
 
   return (
     <>
@@ -45,8 +56,9 @@ const ProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
                   category: product ? product.category.title : "gadgets",
                   price: product ? product.price : "",
                   img: product ? product.img : "",
-                  published: product ? product.published : "",
+                  published: product ? product.published : false,
                 }}
+                validationSchema={ProductSchema}
                 onSubmit={(values) => {
                   const data = {
                     title: values.title,
@@ -82,14 +94,16 @@ const ProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
                       rounded="lg"
                     >
                       {/* Title */}
-                      <FormControl>
+                      <FormControl isInvalid={!!errors.title && touched.title}>
                         <FormLabel htmlFor="title">Title</FormLabel>
                         <Field as={Input} id="title" name="title" type="text" />
+                        <FormErrorMessage>{errors.title}</FormErrorMessage>
                       </FormControl>
                       {/* Image url */}
-                      <FormControl>
+                      <FormControl isInvalid={!!errors.img && touched.img}>
                         <FormLabel htmlFor="img">Image URL</FormLabel>
                         <Field as={Input} id="img" name="img" type="text" />
+                        <FormErrorMessage>{errors.img}</FormErrorMessage>
                       </FormControl>
                       {/* Category */}
                       <FormControl>
@@ -107,7 +121,7 @@ const ProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
                         </Select>
                       </FormControl>
                       {/* Price */}
-                      <FormControl>
+                      <FormControl isInvalid={!!errors.price && touched.price}>
                         <FormLabel htmlFor="price">Price</FormLabel>
                         <Field
                           as={Input}
@@ -115,6 +129,7 @@ const ProductDrawer = ({ onClose, isOpen, title, product }: Props) => {
                           name="price"
                           type="number"
                         />
+                        <FormErrorMessage>{errors.price}</FormErrorMessage>
                       </FormControl>
                       {/* Published */}
                       <FormControl>

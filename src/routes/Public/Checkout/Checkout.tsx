@@ -33,8 +33,6 @@ const Checkout = () => {
   );
   const navigate = useNavigate();
 
-  const dispatch = useDispatch<AppDispatch>();
-
   const CheckoutSchema = Yup.object().shape({
     name: Yup.string()
       .min(2, "Too Short")
@@ -96,9 +94,8 @@ const Checkout = () => {
             axios
               .post("http://localhost:5000/api/checkout", data)
               .then((response) => {
-                console.log(response);
                 if (response.status === 200) {
-                  dispatch(clearCart(null));
+                  navigate("/confirmation/" + response.data);
                 }
               })
               .catch((error) => {

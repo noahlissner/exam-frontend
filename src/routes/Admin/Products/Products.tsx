@@ -16,6 +16,8 @@ import { FiSearch, FiPlus } from "react-icons/fi";
 import ProductTable from "../../../components/Tables/ProductTable";
 import useProducts from "./hooks/useProducts";
 import ProductDrawer from "../../../components/Drawers/ProductDrawer";
+import { useEffect, useState } from "react";
+import { IProducts } from "./types";
 
 const Products = () => {
   const { data, error, isLoading } = useProducts();
