@@ -39,12 +39,14 @@ const ProductTable = ({ products }: Props) => {
 
   const handleUpdatePublished = (e: ChangeEvent<HTMLInputElement>) => {
     const product = products.find((product) => product._id === e.target.name);
-    const data = {
-      ...product,
-      published: e.target.checked,
-    };
+    if (product) {
+      const data = {
+        ...product,
+        published: e.target.checked,
+      };
 
-    update(data);
+      update(data);
+    }
   };
 
   const handleEdit = (product: IProducts) => {

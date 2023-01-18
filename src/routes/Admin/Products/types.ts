@@ -19,7 +19,7 @@ export interface IError {
 export interface ICreateProduct {
   title: string;
   img?: string;
-  category: string;
+  category: string | ICategory;
   price: number;
   published: boolean;
 }
